@@ -7,8 +7,6 @@ import threading
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-
-
 class DetectionStore:
 	def __init__(self, db_path: Optional[Path] = None) -> None:
 		root = Path(__file__).resolve().parents[2]
@@ -45,7 +43,6 @@ class DetectionStore:
 				"""
 			)
 			conn.execute("CREATE INDEX IF NOT EXISTS idx_detections_timestamp ON detections(timestamp)")
-			conn.execute("CREATE INDEX IF NOT EXISTS idx_detections_is_anomaly ON detections(is_anomaly)")
 			conn.execute("CREATE INDEX IF NOT EXISTS idx_detections_path ON detections(path)")
 			conn.commit()
 
@@ -102,7 +99,6 @@ class DetectionStore:
 					),
 				)
 				conn.commit()
-
 	def get_detections(
 		self,
 		from_timestamp: Optional[float] = None,
@@ -183,9 +179,7 @@ class DetectionStore:
 
 		total_requests = int(row["total_requests"] or 0)
 		total_anomalies = int(row["total_anomalies"] or 0)
-		# Return detection rate as percentage for direct display in UI.
 		detection_rate = ((total_anomalies / total_requests) * 100.0) if total_requests else 0.0
-
 		return {
 			"total_requests": total_requests,
 			"total_anomalies": total_anomalies,
