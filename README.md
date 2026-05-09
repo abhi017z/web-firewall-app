@@ -63,33 +63,6 @@ You can also start everything with one helper script:
 4. Open the history UI: `http://localhost:8000/history` and filter recent events
 5. (Optional) Trigger retraining via Update API: `http://localhost:8001/docs`
 
-Example requests:
-
-```bash
-# Benign
-curl -X POST http://localhost:8000/detect \
-  -H "Content-Type: application/json" -H "X-API-Key: dev-key" \
-  -d '{"method":"GET","path":"/products","query_params":{"q":"laptop"},"headers":{},"body":""}'
-
-# Attack‑like (XSS)
-curl -X POST http://localhost:8000/detect \
-  -H "Content-Type: application/json" -H "X-API-Key: dev-key" \
-  -d '{"method":"GET","path":"/search","query_params":{"q":"<script>alert(1)</script>"},"headers":{},"body":""}'
-```
-
-History UI: `http://localhost:8000/history`  
-Swagger: `http://localhost:8000/docs` and `http://localhost:8001/docs`
-
-## Docker (optional)
-
-```bash
-docker-compose up -d
-# WAF API  : http://localhost:8000
-# Update API: http://localhost:8001
-# Nginx     : http://localhost:80
-# Sample apps: http://localhost:8081-8083
-```
-
 ## Project layout (short version)
 
 ```
